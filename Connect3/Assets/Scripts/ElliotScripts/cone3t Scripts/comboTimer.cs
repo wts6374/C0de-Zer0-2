@@ -2,38 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class comboTimer : MonoBehaviour {
+public class ComboTimer : MonoBehaviour {
 
-    bool comboing;
-    float comboEndTime;
+    public bool comboing;
+    public float comboEndTime;
 
 	// Use this for initialization
 	void Start () {
         comboing = false;
-        comboEndTime = 20.0f;
+        comboEndTime = 0.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
        
-
+        // checks if currently comboing
         if(comboing == true)
         {
+            // detracts time from comboEndTime
             comboEndTime -= Time.deltaTime;
-            //if() // determines whether combo is occuring or not
-            {
-                //comboEndTime += added time from continuous combo
-            }
+
+            // checks if comboEndTImer is finished
             if (comboEndTime <= 0.0f)
             {
+                // if combo ends, make comboing false and set the time back to 0
                 comboing = false;
-                comboEndTime = 20.0f;
+                comboEndTime = 0.0f;
             }
         }
-        //else if() // determines whether combo is occuring or not
+
+        if(false) // determines whether combo is occuring or not
         {
+            // makes sure comboing is equal to true and adds time to the combo timer
             comboing = true;
+            comboEndTime += 10.0f;
         }
 
 
