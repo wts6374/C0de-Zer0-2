@@ -391,6 +391,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfMoves: 0
   score: 0
+  redMat: {fileID: 2100000, guid: 29b4fadd8992e3643bb9aa88da3544ba, type: 2}
+  blueMat: {fileID: 2100000, guid: 2326444ecc4f95a4f9a1468677cbc02e, type: 2}
+  blankChip: {fileID: 1767879007651106, guid: b9c31da1e8936fc4eac025ccedd81f6a, type: 2}
+  chips: []
 --- !u!4 &252292220
 Transform:
   m_ObjectHideFlags: 0
@@ -412,9 +416,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 252292217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a70d23294218344295884324f956945, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a0dbf39dd2ffae49a900588e728f875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  comboing: 0
+  comboEndTime: 0
 --- !u!1 &274378774
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,7 +577,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: -2.95, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
