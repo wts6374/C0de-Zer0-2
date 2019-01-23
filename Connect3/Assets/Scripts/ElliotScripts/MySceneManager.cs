@@ -23,6 +23,6 @@ public class MySceneManager : MonoBehaviour {
 
     void EndGame()
     {
-
+        SceneManager.LoadSceneAsync("GameOver");
     }
 }
