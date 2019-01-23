@@ -19,7 +19,12 @@ public class MySceneManager : MonoBehaviour {
             numberOfMoves--;
         if (numberOfMoves == 0)
             EndGame();
-	}
+
+        GameObject[] redChips;
+        redChips = GameObject.FindGameObjectsWithTag("Red Chip");
+        GameObject[] blueChips;
+        redChips = GameObject.FindGameObjectsWithTag("Blue Chip");
+    }
 
     void EndGame()
     {
