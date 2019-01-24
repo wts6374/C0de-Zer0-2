@@ -21,10 +21,9 @@ public class MySceneManager : MonoBehaviour {
 
         switchingArray = new GameObject[2];
         
-
         // REMOVE LATER
         // value used to place chips next to each other for testing purposes
-        int chipPlacement = 0;
+        float chipPlacement = -3.5f;
 
         // creates 5 chips by default 
         for(int x = 0; x < 5; x++)
@@ -38,11 +37,12 @@ public class MySceneManager : MonoBehaviour {
             else // if 2; sets Chip identifier to 0 and gives it the blue material
                 blankChip.GetComponent<Chips>().SetChip(0, blueMat);
 
+            // sets index in chips array
             blankChip.GetComponent<Chips>().index = x;
 
             // instantiates Chip into scene
-            chips.Add(Instantiate(blankChip, new Vector3(chipPlacement, 1, 1), Quaternion.identity));
-            chipPlacement += 1;
+            chips.Add(Instantiate(blankChip, new Vector3(chipPlacement, 1, 0), Quaternion.identity));
+            chipPlacement += 1.0f;
         }
             
 
@@ -78,6 +78,8 @@ public class MySceneManager : MonoBehaviour {
 
             switchingArray[0].transform.position = pos2;
             switchingArray[1].transform.position = pos1;
+
+            score += 10;
 
             for (int x = 0; x < 2; x++)
                 switchingArray[x] = null;
