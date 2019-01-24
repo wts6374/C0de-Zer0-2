@@ -7,8 +7,12 @@ public class MySceneManager : MonoBehaviour {
 
     public int numberOfMoves;
     public float score;
-	// Use this for initialization
-	void Start () {
+
+    private Vector3 screenPoint;
+    private Vector3 offset;
+
+    // Use this for initialization
+    void Start () {
         numberOfMoves = 5;
         score = 0;
 	}
@@ -19,10 +23,13 @@ public class MySceneManager : MonoBehaviour {
             numberOfMoves--;
         if (numberOfMoves == 0)
             EndGame();
+
+        
 	}
 
     void EndGame()
     {
         SceneManager.LoadSceneAsync(2);
     }
+
 }

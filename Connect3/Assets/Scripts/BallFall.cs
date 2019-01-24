@@ -6,6 +6,13 @@ public class BallFall : MonoBehaviour {
 
     // Use this for initialization
     public bool trigger;
+
+    public bool selected;
+
+    private bool up;
+    private bool left;
+    private bool right;
+    private bool down;
 	void Start () {
 		
 	}
