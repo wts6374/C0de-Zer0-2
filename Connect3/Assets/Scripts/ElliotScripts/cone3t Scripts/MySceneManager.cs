@@ -16,7 +16,7 @@ public class MySceneManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         chips = new List<GameObject>();
-        numberOfMoves = 5;
+        numberOfMoves = 10;
         score = 0;
 
         switchingArray = new GameObject[2];
@@ -67,7 +67,7 @@ public class MySceneManager : MonoBehaviour {
     {
         if(switchingArray[1] != null)
         {
-            Debug.Log("INSIDE");
+            //Debug.Log("INSIDE");
             //if(switchingArray[0].transform.position.x - switchingArray[1].transform.position.x < 0)
             //{
 
