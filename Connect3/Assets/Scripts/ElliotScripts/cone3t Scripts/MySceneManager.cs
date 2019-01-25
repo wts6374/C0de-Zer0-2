@@ -26,7 +26,7 @@ public class MySceneManager : MonoBehaviour {
         
         // REMOVE LATER
         // value used to place chips next to each other for testing purposes
-        float chipPlacement = 4f;
+        float chipPlacement = -3.5f;
 
         // creates 5 chips by default 
         for(int x = 0; x < 5; x++)
@@ -216,11 +216,6 @@ public class MySceneManager : MonoBehaviour {
     void EndGame()
     {
         SceneManager.LoadSceneAsync(2);
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
     }
 
     void HandleSwitching()
