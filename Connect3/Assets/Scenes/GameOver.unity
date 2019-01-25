@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 347328343}
   - component: {fileID: 347328342}
   m_Layer: 5
-  m_Name: Playbutton
+  m_Name: Restartbutton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -267,7 +267,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1364063083}
-        m_MethodName: PlayGame
+        m_MethodName: OpenStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -755,7 +755,7 @@ GameObject:
   - component: {fileID: 1989572017}
   - component: {fileID: 1989572016}
   m_Layer: 5
-  m_Name: Playbutton
+  m_Name: Quitbutton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -820,7 +820,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1364063083}
-        m_MethodName: PlayGame
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
