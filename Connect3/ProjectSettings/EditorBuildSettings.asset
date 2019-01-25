@@ -14,7 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/cone3t.unity
     guid: 65937c90e420c4a43a626cdce93abac0
+  - enabled: 0
+    path: Assets/__DELETED_GUID_Trash/f5a7d496b4b3d81418acd50edcc08c88
+    guid: f5a7d496b4b3d81418acd50edcc08c88
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
-    guid: f5a7d496b4b3d81418acd50edcc08c88
+    guid: ebf7a1323b9040a40ab3e54eed3167e7
   m_configObjects: {}
