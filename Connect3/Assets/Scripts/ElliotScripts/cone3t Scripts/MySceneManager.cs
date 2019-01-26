@@ -230,9 +230,11 @@ public class MySceneManager : MonoBehaviour {
 
             Vector3 pos1 = switchingArray[0].transform.position;
             Vector3 pos2 = switchingArray[1].transform.position;
-
-            switchingArray[0].transform.position = pos2;
-            switchingArray[1].transform.position = pos1;
+            if ((Mathf.Abs(pos1.x - pos2.x) < 2) && (Mathf.Abs(pos1.y - pos2.y) < 2))
+            {
+                switchingArray[0].transform.position = pos2;
+                switchingArray[1].transform.position = pos1;
+            }
 
             score += 10;
 
