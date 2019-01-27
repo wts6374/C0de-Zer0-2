@@ -39,6 +39,10 @@ public class detectMatch : MonoBehaviour {
     void Update()
     {
 
+
+    if(begin==true)
+     { 
+
         //Trying to access elements of the script but it doesn't like how I'm trying reach for script info
         for (int i = 0; i < 8; i++)
         {
@@ -55,7 +59,7 @@ public class detectMatch : MonoBehaviour {
         {
             for (int p = 0; p < 8; p++)
             {
-                if(gridNum[k, p]==1)
+                if (gridNum[k, p] == 1)
                 {
                     redMatch.Add(grid[k, p]);
                 }
@@ -76,34 +80,34 @@ public class detectMatch : MonoBehaviour {
             {
 
                 //up and down
-                if(p>0&&p<8)
+                if (p > 0 && p < 8)
                 {
-                    if(gridNum[k,p-1]==gridNum[k,p])
+                    if (gridNum[k, p - 1] == gridNum[k, p])
                     {
                         //2 ups
-                            if (p>=2 && gridNum[k, p - 2] == gridNum[k, p])
-                            {
-                                grid[k, p].transform.position = motherLocation.transform.position;
-                                grid[k, p-1].transform.position = motherLocation.transform.position;
-                                grid[k, p-2].transform.position = motherLocation.transform.position;
-                            scoreManager.GetComponent<MySceneManager>().numberOfMoves += 1;
-                            scoreManager.GetComponent<MySceneManager>().score += 300;
-                            break;
-                            }
-
-                            //up and down
-                        else if (p <=7  && gridNum[k, p +1] == gridNum[k, p])
+                        if (p >= 2 && gridNum[k, p - 2] == gridNum[k, p])
                         {
                             grid[k, p].transform.position = motherLocation.transform.position;
                             grid[k, p - 1].transform.position = motherLocation.transform.position;
-                            grid[k, p +1].transform.position = motherLocation.transform.position;
+                            grid[k, p - 2].transform.position = motherLocation.transform.position;
+                            scoreManager.GetComponent<MySceneManager>().numberOfMoves += 1;
+                            scoreManager.GetComponent<MySceneManager>().score += 300;
+                            break;
+                        }
+
+                        //up and down
+                        else if (p <= 7 && gridNum[k, p + 1] == gridNum[k, p])
+                        {
+                            grid[k, p].transform.position = motherLocation.transform.position;
+                            grid[k, p - 1].transform.position = motherLocation.transform.position;
+                            grid[k, p + 1].transform.position = motherLocation.transform.position;
                             scoreManager.GetComponent<MySceneManager>().numberOfMoves += 1;
                             scoreManager.GetComponent<MySceneManager>().score += 300;
                             break;
                         }
                     }
                     //2 Down
-                    else if (p<= 6 && (gridNum[k, p + 2] == gridNum[k, p]&& gridNum[k, p+1] == gridNum[k, p]))
+                    else if (p <= 6 && (gridNum[k, p + 2] == gridNum[k, p] && gridNum[k, p + 1] == gridNum[k, p]))
                     {
                         grid[k, p].transform.position = motherLocation.transform.position;
                         grid[k, p + 1].transform.position = motherLocation.transform.position;
@@ -116,38 +120,41 @@ public class detectMatch : MonoBehaviour {
                 else  //left and right
                 if (k > 0 && k < 8)
                 {
-                    if (gridNum[k-1, p] == gridNum[k, p])
+                    if (gridNum[k - 1, p] == gridNum[k, p])
                     {
                         //2 left
-                        if (k >= 2 && gridNum[k-2, p] == gridNum[k, p])
+                        if (k >= 2 && gridNum[k - 2, p] == gridNum[k, p])
                         {
                             grid[k, p].transform.position = motherLocation.transform.position;
-                            grid[k-1, p].transform.position = motherLocation.transform.position;
-                            grid[k-2, p].transform.position = motherLocation.transform.position;
+                            grid[k - 1, p].transform.position = motherLocation.transform.position;
+                            grid[k - 2, p].transform.position = motherLocation.transform.position;
                             scoreManager.GetComponent<MySceneManager>().numberOfMoves += 1;
                             scoreManager.GetComponent<MySceneManager>().score += 300;
+                            begin = false;
                             break;
                         }
 
                         //left and right
-                        else if (k <= 7 && gridNum[k+1, p] == gridNum[k, p])
+                        else if (k <= 7 && gridNum[k + 1, p] == gridNum[k, p])
                         {
                             grid[k, p].transform.position = motherLocation.transform.position;
-                            grid[k-1, p].transform.position = motherLocation.transform.position;
-                            grid[k+1, p].transform.position = motherLocation.transform.position;
+                            grid[k - 1, p].transform.position = motherLocation.transform.position;
+                            grid[k + 1, p].transform.position = motherLocation.transform.position;
                             scoreManager.GetComponent<MySceneManager>().numberOfMoves += 1;
                             scoreManager.GetComponent<MySceneManager>().score += 300;
+                            begin = false;
                             break;
                         }
                     }
                     //2 right
-                    else if (k <= 6 && (gridNum[k+2, p] == gridNum[k, p] && gridNum[k+1, p] == gridNum[k, p]))
+                    else if (k <= 6 && (gridNum[k + 2, p] == gridNum[k, p] && gridNum[k + 1, p] == gridNum[k, p]))
                     {
                         grid[k, p].transform.position = motherLocation.transform.position;
-                        grid[k+1, p].transform.position = motherLocation.transform.position;
-                        grid[k+2, p].transform.position = motherLocation.transform.position;
+                        grid[k + 1, p].transform.position = motherLocation.transform.position;
+                        grid[k + 2, p].transform.position = motherLocation.transform.position;
                         scoreManager.GetComponent<MySceneManager>().numberOfMoves += 1;
                         scoreManager.GetComponent<MySceneManager>().score += 300;
+                        begin = false;
                         break;
                     }
                 }
@@ -163,11 +170,11 @@ public class detectMatch : MonoBehaviour {
             for (int p = 0; p < 8; p++)
             {
                 grid[k, p] = null;
-                gridNum[k, p]=3;
+                gridNum[k, p] = 3;
             }
         }
-        begin = false;
 
+    }
                 //This will use derivates to match more than 3
                 /* for (int a = 0; a < redMatch.Count; a++)
                  {
@@ -183,7 +190,7 @@ public class detectMatch : MonoBehaviour {
     private void OnCollisionEnter(Collision other)
     {
 
-       if (other.gameObject.tag == "RCube"||other.gameObject.tag == "BCube")
+       if (other.gameObject.tag == "RCube")
         {
             begin = true; 
         }

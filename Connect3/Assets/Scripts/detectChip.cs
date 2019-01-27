@@ -21,20 +21,16 @@ public class detectChip : MonoBehaviour
 
     }
 
-    //Detects when a bchips hit the bottom, beginning the process
+    //Detects when a bchips hit a grid, picking up on the chips properties and saving them
     private void OnCollisionEnter(Collision other)
     {
 
         if (other.gameObject.tag == "RCube")
         {
-            version = 1;
+            version = other.gameObject.GetComponent<Chips>().chipNumCode-1;
             chip = other.gameObject;
         }
-        else if (other.gameObject.tag == "BCube")
-        {
-            version = 0;
-            chip = other.gameObject;
-        }
+
 
 }
 }
