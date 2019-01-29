@@ -18,6 +18,14 @@ public class MySceneManager : MonoBehaviour {
     public GameObject[] switchingArray;
     public bool switching;
     float switchValue;
+    int chip1Index;
+    int chip2Index;
+    Vector3 chip1Switch;
+    Vector3 chip2Switch;
+    bool switchUp;
+    bool switchDown;
+    bool switchLeft;
+    bool switchRight;
     //int secondSwitchValue;
 
     private Vector3 screenPoint;
@@ -245,65 +253,149 @@ public class MySceneManager : MonoBehaviour {
 
     void HandleSwitching()
     {
-        if(switchingArray[1] != null)
+        if (switchingArray[1] != null)
         {
             //Debug.Log("INSIDE");
             //if(switchingArray[0].transform.position.x - switchingArray[1].transform.position.x < 0)
             //{
 
             //}
+
+
+            chip1Index = switchingArray[0].GetComponent<Chips>().index;
+            chip2Index = switchingArray[1].GetComponent<Chips>().index;
+
             switching = true;
 
-            Vector3 pos1 = switchingArray[0].transform.position;
-            Vector3 pos2 = switchingArray[1].transform.position;
+            chip1Switch = switchingArray[0].GetComponent<Transform>().position;
+            chip2Switch = switchingArray[1].GetComponent<Transform>().position;
 
-            int switchIndex = 0;
+            // switchingArray[0].GetComponent<SphereCollider>().enabled = false;
+            // switchingArray[1].GetComponent<SphereCollider>().enabled = false;
 
-            if (switching == true)
+            // switchingArray[0].GetComponent<BoxCollider>().enabled = false;
+            // switchingArray[1].GetComponent<BoxCollider>().enabled = false;
+
+            for(int x = 0; x < chips.Count; x++)
             {
-                if (switchingArray[0].transform.position.x == switchingArray[1].transform.position.x)
-                    if (switchingArray[0].transform.position.y > switchingArray[1].transform.position.y)
-                        switchIndex = 1;
-                    else
-                        switchIndex = 2;
-                else if (switchingArray[0].transform.position.y == switchingArray[1].transform.position.y)
-                    if (switchingArray[0].transform.position.x < switchingArray[1].transform.position.x)
-                        switchIndex = 3;
-                    else
-                        switchIndex = 4;
-
-
+                // chips[x].GetComponent<BoxCollider>().enabled = false;
+                // chips[x].GetComponent<SphereCollider>().enabled = false;
+                Destroy(chips[x].GetComponent<Rigidbody>());
             }
-
-            if(switching)
-            {
-                if (switchIndex == 1)
-                {
-                    if (switchValue <= 1)
-                    {
-                        pos1.x -= .05f;
-                        pos2.x += .05f;
-                        switchValue += .05f;
-                    }
-                    else
-                    {
-                        switching = false;
-                        switchValue = .05f;
-                    }
-                        
-                }
-
-            }
-
-
-            switchingArray[0].transform.position = pos2;
-            switchingArray[1].transform.position = pos1;
-
-            // score += 10;
 
             for (int x = 0; x < 2; x++)
                 switchingArray[x] = null;
+
+            //if (chips[chip1Index].transform.position.y < chip2Switch.y)
+            //    switchUp = true;
+            //else if (chips[chip1Index].transform.position.y > chip2Switch.y)
+            //    switchDown = true;
+            //else if (chips[chip1Index].transform.position.x < chip2Switch.x)
+            //    switchRight = true;
+            //else
+            //    switchLeft = true;
+
+            if (Mathf.Abs(chips[chip1Index].transform.position.y - chip2Switch.y) > .5f && chip2Switch.y > chips[chip1Index].transform.position.y)
+                switchUp = true;
+            else if (Mathf.Abs(chips[chip1Index].transform.position.y - chip2Switch.y) > .5f)
+                switchDown = true;
+            else if (Mathf.Abs(chips[chip1Index].transform.position.x - chip2Switch.x) > .5f && chip2Switch.x > chips[chip1Index].transform.position.x)
+                switchRight = true;
+            else
+                switchLeft = true;
+            
+
         }
+        
+        if(switching)
+        {
+            // Vector3 pos1 = switchingArray[0].transform.position;
+            // Vector3 pos2 = switchingArray[1].transform.position;
+            // switching = false;
+          
+            if (switchUp)
+            {
+                float newYValue1 = chips[chip1Index].GetComponent<Transform>().position.y + .05f;
+                float newYValue2 = chips[chip2Index].GetComponent<Transform>().position.y - .05f;
+
+                Vector3 newChip1Pos = new Vector3(chip1Switch.x, newYValue1, chip1Switch.z);
+                Vector3 newChip2Pos = new Vector3(chip2Switch.x, newYValue2, chip2Switch.z);
+
+                chips[chip1Index].transform.position = newChip1Pos;
+                chips[chip2Index].transform.position = newChip2Pos;
+                
+                if(Mathf.Abs(chips[chip1Index].transform.position.y - chip2Switch.y) < .2f)
+                {
+                    switchUp = false;
+                }
+            }
+            else if(switchDown)
+            {
+                float newYValue1 = chips[chip1Index].GetComponent<Transform>().position.y - .05f;
+                float newYValue2 = chips[chip2Index].GetComponent<Transform>().position.y + .05f;
+
+                Vector3 newChip1Pos = new Vector3(chip1Switch.x, newYValue1, chip1Switch.z);
+                Vector3 newChip2Pos = new Vector3(chip2Switch.x, newYValue2, chip2Switch.z);
+
+                chips[chip1Index].transform.position = newChip1Pos;
+                chips[chip2Index].transform.position = newChip2Pos;
+
+                if (Mathf.Abs(chips[chip1Index].transform.position.y - chip2Switch.y) < .2f)
+                {
+                    switchDown = false;
+                }
+            }
+            else if (switchLeft)
+            {
+                float newXValue1 = chips[chip1Index].GetComponent<Transform>().position.x - .05f;
+                float newXValue2 = chips[chip2Index].GetComponent<Transform>().position.x + .05f;
+
+                Vector3 newChip1Pos = new Vector3(newXValue1, chip1Switch.y, chip1Switch.z);
+                Vector3 newChip2Pos = new Vector3(newXValue2, chip2Switch.y, chip2Switch.z);
+
+                chips[chip1Index].transform.position = newChip1Pos;
+                chips[chip2Index].transform.position = newChip2Pos;
+
+                if (Mathf.Abs(chips[chip1Index].transform.position.x - chip2Switch.x) < .2f)
+                {
+                    switchLeft = false;
+                }
+            }
+            else if (switchRight)
+            {
+                float newXValue1 = chips[chip1Index].GetComponent<Transform>().position.x + .05f;
+                float newXValue2 = chips[chip2Index].GetComponent<Transform>().position.x - .05f;
+
+                Vector3 newChip1Pos = new Vector3(newXValue1, chip1Switch.y, chip1Switch.z);
+                Vector3 newChip2Pos = new Vector3(newXValue2, chip2Switch.y, chip2Switch.z);
+
+                chips[chip1Index].transform.position = newChip1Pos;
+                chips[chip2Index].transform.position = newChip2Pos;
+
+                if (Mathf.Abs(chips[chip1Index].transform.position.x - chip2Switch.x) < .2f)
+                {
+                    switchRight = false;
+                }
+            }
+            else
+            {
+                switching = false;
+                for (int x = 0; x < chips.Count; x++)
+                    chips[x].AddComponent<Rigidbody>();
+                Debug.Log("Switching over");
+                return;
+            }
+        }
+        
+
+
+        // switchingArray[0].transform.position = pos2;
+        // switchingArray[1].transform.position = pos1;
+
+        // score += 10;
+
+        
+        
 
 
 
