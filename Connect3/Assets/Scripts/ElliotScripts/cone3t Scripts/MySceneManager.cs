@@ -12,6 +12,9 @@ public class MySceneManager : MonoBehaviour {
     public GameObject blankChip;
     public List<GameObject> chips;
     public GameObject[] switchingArray;
+    public bool moved, moving;
+    private Vector3 Pos1, Pos2;
+    private int count;
 
     private Vector3 screenPoint;
     private Vector3 offset;
@@ -20,16 +23,19 @@ public class MySceneManager : MonoBehaviour {
 	void Start () {
         chips = new List<GameObject>();
         numberOfMoves = 30;
-        score = 0;
-
+        score = count = 0;
+        moved = moving = false;
+        Pos1 = Pos2 = Vector3.zero;
         switchingArray = new GameObject[2];
         
         // REMOVE LATER
         // value used to place chips next to each other for testing purposes
         float chipPlacement = -3.5f;
 
+        //chips.Add(Instantiate(blankChip, new Vector3(chipPlacement, 1, 0), Quaternion.identity));
+
         // creates 5 chips by default 
-        for(int x = 0; x < 5; x++)
+        for (int x = 0; x < 5; x++)
         {
             // randomly chooses either 1 or 2
             int randomNum = Random.Range(0, 2);
@@ -218,26 +224,39 @@ public class MySceneManager : MonoBehaviour {
         SceneManager.LoadSceneAsync(2);
     }
 
+    //Updated Switching
     void HandleSwitching()
     {
+        //if tow elements are selected for switching 
         if(switchingArray[1] != null)
         {
-            //Debug.Log("INSIDE");
-            //if(switchingArray[0].transform.position.x - switchingArray[1].transform.position.x < 0)
-            //{
-
-            //}
-
-            Vector3 pos1 = switchingArray[0].transform.position;
-            Vector3 pos2 = switchingArray[1].transform.position;
-
-            switchingArray[0].transform.position = pos2;
-            switchingArray[1].transform.position = pos1;
-
-            score += 10;
-
-            for (int x = 0; x < 2; x++)
-                switchingArray[x] = null;
+            //And not in the process of switching, store the end positions
+            if (!moving)
+            {
+                Pos1 = switchingArray[0].transform.position;
+                Pos2 = switchingArray[1].transform.position;
+                moving = true;
+            }
+            else
+            {
+                //only move a certain amount as not to get stuck
+                if (count < 10)
+                {
+                    //Slowly move between the positions and add to count
+                    switchingArray[0].transform.position += (Pos2 - switchingArray[0].transform.position) / 2f;
+                    switchingArray[1].transform.position += (Pos1 - switchingArray[1].transform.position) / 2f;
+                    count++;
+                }
+                else
+                {
+                    //reset the empty array and count while adding to score
+                    moving = false;
+                    switchingArray = new GameObject[2];
+                    count = 0;
+                    score += 10;
+                }
+            }
+            
         }
 
 
