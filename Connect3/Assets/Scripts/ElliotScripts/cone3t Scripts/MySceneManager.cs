@@ -17,7 +17,7 @@ public class MySceneManager : MonoBehaviour {
 
     public GameObject[] switchingArray;
     public bool switching;
-    float switchValue;
+    //float switchValue;
     int chip1Index;
     int chip2Index;
     Vector3 chip1Switch;
@@ -28,8 +28,8 @@ public class MySceneManager : MonoBehaviour {
     bool switchRight;
     //int secondSwitchValue;
 
-    private Vector3 screenPoint;
-    private Vector3 offset;
+    //[SerializeField]
+    public GameObject[,] chipGrid;
 
 	// Use this for initialization
 	void Start () {
@@ -37,16 +37,56 @@ public class MySceneManager : MonoBehaviour {
         chips = new List<GameObject>();
         numberOfMoves = 30;
         score = 0;
-        switchValue = .05f;
+        chipGrid = new GameObject[8, 8];
+        //switchValue = .05f;
 
         switchingArray = new GameObject[2];
-        
+
         // REMOVE LATER
         // value used to place chips next to each other for testing purposes
-        float chipPlacement = -3.5f;
+        //float chipPlacement = -3.5f;
+        //float chipPlacement = -3.5f;
+        int heightChange = 0;
+        float chipPlacement = -6.5f;
+        /*----------------------*/
+        #region chipSetUp
+        for (int x = 0; x < 8; x++)
+        {
+            heightChange = 0;
+            for (int y = 0; y < 8; y++)
+            {
+                // randomly chooses either 1 or 2
+                int randomNum = Random.Range(0, 3);
 
+                // if 1; sets Chip identifier to 1 and gives it the red material
+                if (randomNum == 1)
+                    blankChip.GetComponent<Chips>().SetChip(1, redMat);
+                else if (randomNum == 0)// if 0; sets Chip identifier to 0 and gives it the blue material
+                    blankChip.GetComponent<Chips>().SetChip(0, blueMat);
+                else
+                    blankChip.GetComponent<Chips>().SetChip(2, greenMat);
+
+                // sets index in chips array
+                blankChip.GetComponent<Chips>().index = x + y;
+
+                // instantiates Chip into scene
+                chips.Add(Instantiate(blankChip, new Vector3(chipPlacement, 1+heightChange, 0), Quaternion.identity));
+
+                heightChange += 2;
+                chipGrid[x, y] = chips[x + y];
+            }
+            
+            chipPlacement += 1.0f;
+        }
+
+        Debug.Log(chipGrid[0, 2].GetComponent<Chips>().index);
+        Debug.Log(chipGrid[0, 2].transform.position);
+        #endregion
+        /*----------------------*/
+
+        /*
         // creates 5 chips by default 
-        for(int x = 0; x < 5; x++)
+        for (int x = 0; x < 5; x++)
         {
             // randomly chooses either 1 or 2
             int randomNum = Random.Range(0, 3);
@@ -233,7 +273,7 @@ public class MySceneManager : MonoBehaviour {
             // instantiates Chip into scene
             chips.Add(Instantiate(blankChip, new Vector3(chipPlacement, 15, 0), Quaternion.identity));
             chipPlacement += 1.0f;
-        }
+        }*/
     }
 	
 	// Update is called once per frame

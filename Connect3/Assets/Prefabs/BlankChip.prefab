@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chipNumCode: 0
-  index: 39
+  index: 14
 --- !u!135 &135932756626218444
 SphereCollider:
   m_ObjectHideFlags: 1
