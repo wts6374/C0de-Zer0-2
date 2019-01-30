@@ -21,6 +21,7 @@ public class MySceneManager : MonoBehaviour {
     private int count;
 
     public GameObject[,] chipGrid;
+    public GameObject motherLocation;
 
     // Use this for initialization
     void Start () {
@@ -93,6 +94,7 @@ public class MySceneManager : MonoBehaviour {
             EndGame();
 
         HandleSwitching();
+        FindMatch();
         //Debug.Log(chipGrid[0, 2].GetComponent<Chips>().index);
         //Debug.Log(chipGrid[0, 2].transform.position);
     }
@@ -222,6 +224,86 @@ public class MySceneManager : MonoBehaviour {
         chipGrid[x1, y1] = temp2;
         chipGrid[x2, y2] = temp1;
 
+    }
+
+
+    //This will look through the grid and find a potential match up
+    void FindMatch()
+    {
+        //For each element of the chipGrid, the grid will look for a matching set in either the horizontal or vertical direction
+        for(int k=0; k<8; k++)
+        {
+            for (int p = 0; p < 8; p++)
+            {
+                //Searches for a matching set of 3 in either the left or right direction
+
+                if (k > 0 && k < 8)
+                {
+                    if (chipGrid[k - 1, p].GetComponent<Chips>().chipNumCode == chipGrid[k, p].GetComponent<Chips>().chipNumCode)
+                    {
+                        //2 matching chips to the left
+                        if (k >= 2 && chipGrid[k - 2, p] == chipGrid[k, p])
+                        {
+                            chipGrid[k, p].transform.position = motherLocation.transform.position;
+                            chipGrid[k - 1, p].transform.position = motherLocation.transform.position;
+                            chipGrid[k - 2, p].transform.position = motherLocation.transform.position;
+                            break;
+                        }
+
+                        //Matching set with one to the left and one to the right
+                        else if (k <= 7 && chipGrid[k + 1, p].GetComponent<Chips>().chipNumCode == chipGrid[k, p].GetComponent<Chips>().chipNumCode)
+                        {
+                            chipGrid[k, p].transform.position = motherLocation.transform.position;
+                            chipGrid[k - 1, p].transform.position = motherLocation.transform.position;
+                            chipGrid[k + 1, p].transform.position = motherLocation.transform.position;
+                            break;
+                        }
+                    }
+                    //2 matching chips to the right
+                    else if (k <= 6 && (chipGrid[k + 2, p].GetComponent<Chips>().chipNumCode == chipGrid[k, p].GetComponent<Chips>().chipNumCode && chipGrid[k + 1, p].GetComponent<Chips>().chipNumCode == chipGrid[k, p].GetComponent<Chips>().chipNumCode))
+                    {
+                        chipGrid[k, p].transform.position = motherLocation.transform.position;
+                        chipGrid[k + 1, p].transform.position = motherLocation.transform.position;
+                        chipGrid[k + 2, p].transform.position = motherLocation.transform.position;
+                        break;
+                    }
+                }
+
+                else if (p > 0 && p < 8)
+                {
+                    if (chipGrid[k, p - 1].GetComponent<Chips>().chipNumCode == chipGrid[k, p].GetComponent<Chips>().chipNumCode)
+                    {
+                        //2 matching chips upwards
+                        if (p >= 2 && chipGrid[k, p - 2].GetComponent<Chips>().chipNumCode == chipGrid[k, p].GetComponent<Chips>().chipNumCode)
+                        {
+                            chipGrid[k, p].transform.position = motherLocation.transform.position;
+                            chipGrid[k, p - 1].transform.position = motherLocation.transform.position;
+                            chipGrid[k, p - 2].transform.position = motherLocation.transform.position;
+                            break;
+                        }
+
+                        //Matching set with one upwards and one downwards
+                        else if (p <= 7 && chipGrid[k, p + 1].GetComponent<Chips>().chipNumCode == chipGrid[k, p].GetComponent<Chips>().chipNumCode)
+                        {
+                            chipGrid[k, p].transform.position = motherLocation.transform.position;
+                            chipGrid[k, p - 1].transform.position = motherLocation.transform.position;
+                            chipGrid[k, p + 1].transform.position = motherLocation.transform.position;
+                            break;
+                        }
+                    }
+                    //2 matching chips downwards
+                    else if (p <= 6 && (chipGrid[k, p + 2].GetComponent<Chips>().chipNumCode == chipGrid[k, p].GetComponent<Chips>().chipNumCode && chipGrid[k, p + 1].GetComponent<Chips>().chipNumCode == chipGrid[k, p].GetComponent<Chips>().chipNumCode))
+                    {
+                        chipGrid[k, p].transform.position = motherLocation.transform.position;
+                        chipGrid[k, p + 1].transform.position = motherLocation.transform.position;
+                        chipGrid[k, p + 2].transform.position = motherLocation.transform.position;
+                        break;
+                    }
+                }
+
+
+            }
+        }
     }
 
     private void OnGUI()
