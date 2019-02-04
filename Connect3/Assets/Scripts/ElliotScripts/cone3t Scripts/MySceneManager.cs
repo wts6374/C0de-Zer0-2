@@ -12,6 +12,7 @@ public class MySceneManager : MonoBehaviour
     public Material redMat;
     public Material blueMat;
     public Material greenMat;
+    public Material yellowMat;
 
     public GameObject blankChip;
     public List<GameObject> chips;
@@ -45,13 +46,15 @@ public class MySceneManager : MonoBehaviour
             for (int y = 0; y < 8; y++)
             {
                 // randomly chooses either 1 or 2
-                int randomNum = Random.Range(0, 3);
+                int randomNum = Random.Range(0, 4);
 
                 // if 1; sets Chip identifier to 1 and gives it the red material
                 if (randomNum == 1)
                     blankChip.GetComponent<Chips>().SetChip(1, redMat);
                 else if (randomNum == 0)// if 0; sets Chip identifier to 0 and gives it the blue material
                     blankChip.GetComponent<Chips>().SetChip(0, blueMat);
+                else if (randomNum == 2)
+                    blankChip.GetComponent<Chips>().SetChip(2, yellowMat);
                 else
                     blankChip.GetComponent<Chips>().SetChip(2, greenMat);
 
