@@ -18,7 +18,8 @@ public class MyGUIManager : MonoBehaviour {
         GUI.TextArea(new Rect(10, 10, 110, 50), "Score: " +
             sceneManager.score + "\nMoves: " +
             sceneManager.numberOfMoves + "\nCombo Timer: " +
-            (int)comboTimer.comboEndTime);
+            (int)comboTimer.comboEndTime
+            );
 
         //GUI.TextArea(new Rect(10,10,110,50), "Score: " + sceneManager.score + "\nMoves: " + sceneManager.numberOfMoves + "\nCombo Timer: " +(int)comboTimer.comboEndTime);
     }
