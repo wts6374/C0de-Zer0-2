@@ -13,6 +13,8 @@ public class MySceneManager : MonoBehaviour
     public Material blueMat;
     public Material greenMat;
     public Material yellowMat;
+    public Material tealMat;
+    public Material purpleMat;
 
     public GameObject blankChip;
     public List<GameObject> chips;
@@ -43,10 +45,10 @@ public class MySceneManager : MonoBehaviour
         for (int x = 0; x < 8; x++)
         {
             heightChange = 0;
-            for (int y = 0; y < 8; y++)
+            for (int y = 0; y < 3; y++)
             {
                 // randomly chooses either 1 or 2
-                int randomNum = Random.Range(0, 4);
+                int randomNum = Random.Range(0, 6);
 
                 // if 1; sets Chip identifier to 1 and gives it the red material
                 if (randomNum == 1)
@@ -55,6 +57,10 @@ public class MySceneManager : MonoBehaviour
                     blankChip.GetComponent<Chips>().SetChip(0, blueMat);
                 else if (randomNum == 2)
                     blankChip.GetComponent<Chips>().SetChip(2, yellowMat);
+                else if (randomNum == 3)
+                    blankChip.GetComponent<Chips>().SetChip(3, tealMat);
+                else if (randomNum == 4)
+                    blankChip.GetComponent<Chips>().SetChip(4, purpleMat);
                 else
                     blankChip.GetComponent<Chips>().SetChip(2, greenMat);
 
@@ -93,8 +99,10 @@ public class MySceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-            numberOfMoves--;
+        //if (Input.GetMouseButtonDown(0))
+        //    numberOfMoves--;
+        if (Input.GetMouseButtonDown(1))
+            switchingArray = new GameObject[2];
         if (numberOfMoves == 0)
             EndGame();
 
@@ -102,12 +110,13 @@ public class MySceneManager : MonoBehaviour
         //Debug.Log(chipGrid[0, 2].GetComponent<Chips>().index);
         //Debug.Log(chipGrid[0, 2].transform.position);
 
-        //This should make sure all the chips don't unfreeze in position and rotation after they move
+        // This should make sure all the chips don't unfreeze in position and rotation after they move
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
             {
-                chipGrid[i, j].gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+                if(chipGrid[i,j] != null)
+                    chipGrid[i, j].gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
             }
         }
 
@@ -137,6 +146,7 @@ public class MySceneManager : MonoBehaviour
                 //And not in the process of switching, store the end positions
                 if (!moving)
                 {
+                    numberOfMoves--;
                     pos1 = switchingArray[0].transform.position;
                     pos2 = switchingArray[1].transform.position;
                     if ((Mathf.Abs(pos1.x - pos2.x) < 1.5) && (Mathf.Abs(pos1.y - pos2.y) < 0.5) || (Mathf.Abs(pos1.x - pos2.x) < 0.5) && (Mathf.Abs(pos1.y - pos2.y) < 1.5))
@@ -217,6 +227,9 @@ public class MySceneManager : MonoBehaviour
         {
             for (int y = 0; y < 8; y++)
             {
+                if (chipGrid[x, y] == null)
+                    break;
+
                 if (temp1 == null && chipGrid[x, y].GetComponent<Chips>().index == index1)
                 {
                     x1 = x;
@@ -248,22 +261,22 @@ public class MySceneManager : MonoBehaviour
 
     }
 
-    private void OnGUI()
-    {
+    //private void OnGUI()
+    //{
 
-        string grid = null;
-        for (int x = 7; x > -1; x--)
-        {
-            for (int y = 0; y < 8; y++)
-            {
-                if (chipGrid[y, x].GetComponent<Chips>().index < 10)
-                    grid += "|" + chipGrid[y, x].GetComponent<Chips>().index + " |";
-                else
-                    grid += "|" + chipGrid[y, x].GetComponent<Chips>().index + "|";
-            }
-            grid += "\n";
-        }
+    //    string grid = null;
+    //    for (int x = 7; x > -1; x--)
+    //    {
+    //        for (int y = 0; y < 8; y++)
+    //        {
+    //            if (chipGrid[y, x].GetComponent<Chips>().index < 10)
+    //                grid += "|" + chipGrid[y, x].GetComponent<Chips>().index + " |";
+    //            else
+    //                grid += "|" + chipGrid[y, x].GetComponent<Chips>().index + "|";
+    //        }
+    //        grid += "\n";
+    //    }
 
-        GUI.Box(new Rect(450, 10, 200, 150), grid);
-    }
+    //    GUI.Box(new Rect(450, 10, 200, 150), grid);
+    //}
 }

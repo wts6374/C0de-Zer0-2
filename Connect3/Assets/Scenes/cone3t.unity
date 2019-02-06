@@ -507,6 +507,8 @@ MonoBehaviour:
   blueMat: {fileID: 2100000, guid: 2326444ecc4f95a4f9a1468677cbc02e, type: 2}
   greenMat: {fileID: 2100000, guid: ee7599c4f7a3b9a4982c93a7a02e3ce5, type: 2}
   yellowMat: {fileID: 2100000, guid: 5f5cb904b9690534a812ff659e1a1b84, type: 2}
+  tealMat: {fileID: 2100000, guid: 3702daf88d5267e4dba152e0c734f290, type: 2}
+  purpleMat: {fileID: 2100000, guid: bf750d78903d5654aaa08243dc82c4e3, type: 2}
   blankChip: {fileID: 1754409236839934, guid: 56728bed20e3a2849b8f086c5f95a594, type: 2}
   chips: []
   switchingArray: []
@@ -928,7 +930,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
