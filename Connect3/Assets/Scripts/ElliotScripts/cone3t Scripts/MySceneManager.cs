@@ -14,16 +14,20 @@ public class MySceneManager : MonoBehaviour {
 
     public GameObject blankChip;
     public List<GameObject> chips;
+	public List<GameObject> chipMatch;
 
     public GameObject[] switchingArray;
     public bool moved, moving;
     private Vector3 pos1, pos2;
     private int count;
+	public int chipCount;
 
     public GameObject[,] chipGrid;
 
     // Use this for initialization
     void Start () {
+		chipCount = 0;
+		chipMatch = new List<GameObject> ();
         chips = new List<GameObject>();
         numberOfMoves = 30;
         score = count = 0;
@@ -35,6 +39,7 @@ public class MySceneManager : MonoBehaviour {
         int heightChange = 0;
         float chipPlacement = -6.5f;
         int indexSet = 0;
+		GameObject tempChip = null; 
         /*----------------------*/
         #region chipSetUp
         for (int x = 0; x < 8; x++)
@@ -59,7 +64,7 @@ public class MySceneManager : MonoBehaviour {
 
                 // instantiates Chip into scene
                 chips.Add(Instantiate(blankChip, new Vector3(chipPlacement, 1 + heightChange, 0), Quaternion.identity));
-
+				tempChip = blankChip;
                 heightChange += 2;
                 chipGrid[x, y] = chips[indexSet];
                 indexSet++;
@@ -82,7 +87,7 @@ public class MySceneManager : MonoBehaviour {
         //    Debug.Log("----------------");
         //}
 
-        
+		checkForMatch ();
     }
 	
 	// Update is called once per frame
@@ -91,7 +96,7 @@ public class MySceneManager : MonoBehaviour {
             numberOfMoves--;
         if (numberOfMoves == 0)
             EndGame();
-
+		Debug.Log (chipGrid);
         HandleSwitching();
         //Debug.Log(chipGrid[0, 2].GetComponent<Chips>().index);
         //Debug.Log(chipGrid[0, 2].transform.position);
@@ -193,19 +198,22 @@ public class MySceneManager : MonoBehaviour {
         {
             for(int y = 0; y < 8; y++)
             {
-                if(temp1 == null && chipGrid[x,y].GetComponent<Chips>().index == index1)
-                {
-                    x1 = x;
-                    y1 = y;
-                    temp1 = chipGrid[x, y];
-                }
-                else if( temp2 == null && chipGrid[x, y].GetComponent<Chips>().index == index2)
-                {
-                    
-                    x2 = x;
-                    y2 = y;
-                    temp2 = chipGrid[x, y];
-                }
+				if (chipGrid [x, y] != null) {
+					if(temp1 == null && chipGrid[x,y].GetComponent<Chips>().index == index1)
+					{
+						x1 = x;
+						y1 = y;
+						temp1 = chipGrid[x, y];
+					}
+					else if( temp2 == null && chipGrid[x, y].GetComponent<Chips>().index == index2)
+					{
+
+						x2 = x;
+						y2 = y;
+						temp2 = chipGrid[x, y];
+					}
+				}
+                
 
                 //int c = chipGrid[x, y].GetComponent<Chips>().index;
                 //Debug.Log(c);
@@ -219,9 +227,10 @@ public class MySceneManager : MonoBehaviour {
                 break;
             }
         }
+		Debug.Log (x1 + " " + y1);
         chipGrid[x1, y1] = temp2;
         chipGrid[x2, y2] = temp1;
-
+		checkForMatch ();
     }
 
     private void OnGUI()
@@ -232,14 +241,146 @@ public class MySceneManager : MonoBehaviour {
         {
             for(int y = 0; y < 8; y++)
             {
-                if(chipGrid[y, x].GetComponent<Chips>().index < 10)
-                    grid += "|" + chipGrid[y, x].GetComponent<Chips>().index + " |";
-                else
-                    grid += "|" + chipGrid[y, x].GetComponent<Chips>().index + "|";
+				if (chipGrid [y, x] != null) {
+					if(chipGrid[y, x].GetComponent<Chips>().index < 10)
+						grid += "|" + chipGrid[y, x].GetComponent<Chips>().index + " |";
+					else
+						grid += "|" + chipGrid[y, x].GetComponent<Chips>().index + "|";
+				}
+                
             }
             grid += "\n";
         }
 
         GUI.Box(new Rect(450, 10, 200, 150), grid);
     }
+
+	public void spawnChip(){
+		int x = Random.Range (0, 8);
+		float placement = -6.5f * x;
+		int col = Random.Range (0, 3);
+		string colStr = "";
+		switch (col) {
+		case 1:
+			blankChip.GetComponent<Chips> ().SetChip (col, redMat);
+			break;
+		case 2:
+			blankChip.GetComponent<Chips> ().SetChip (col, greenMat);
+			break;
+		case 0:
+			blankChip.GetComponent<Chips> ().SetChip (col,blueMat);
+			break;
+		}
+		chipGrid[x,1] = Instantiate(blankChip, new Vector3(placement, 6, 0), Quaternion.identity);
+
+	}
+
+	public void checkForMatch(){
+		List<GameObject> chip2 = new List<GameObject> ();
+		bool match = false;
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				chipMatch.Add (chipGrid [i, j]);
+				Debug.Log (chipGrid [i, j]);
+
+			}
+		}
+
+		GameObject tempChip = null;
+		int xc = 0;
+		int yc = 0;
+		List<GameObject> matches = new List<GameObject> ();
+		foreach (GameObject chp in chipMatch) {
+			if (tempChip == null||chp == null) {
+				Debug.Log ("true");
+			} else {
+				Debug.Log (tempChip);
+				if (chp.GetComponent<Chips> ().chipNumCode == tempChip.GetComponent<Chips> ().chipNumCode) {
+					chipCount++;
+					matches.Add (chp);
+				} else {
+					if (matches.Count>=3) {
+						foreach (GameObject c in matches) {
+							c.transform.position = new Vector3 (3000, 3000, 3000);
+							yc = c.GetComponent<Chips> ().index % 8;
+							xc = ((c.GetComponent<Chips>().index - (c.GetComponent<Chips> ().index % 8)) /8);
+							chipGrid [xc, yc] = null;
+
+						}
+						foreach (GameObject c in matches) {
+							xc = ((c.GetComponent<Chips>().index - (c.GetComponent<Chips> ().index % 8)) /8);
+							List<GameObject> t = new List<GameObject> ();
+							for (int i = 0; i <8; i++) {
+								if (chipGrid[xc,i]==null) {
+								} else {
+									t.Add(chipGrid[xc,i]);
+									chipGrid[xc,i] = null;
+								}
+
+							}
+							for (int i = 0; i < t.Count; i++) {
+								chipGrid [xc, i] = t [i];
+								Debug.Log(chipGrid[xc,i]);
+
+							}
+						}
+						matches.Clear ();
+					} 
+				}
+
+			}
+			tempChip = chp;
+		}
+		tempChip = null;
+		chipMatch.Clear ();
+		matches.Clear ();
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				chip2.Add (chipGrid [j, i]);
+			}
+		}
+		foreach (GameObject chp in chip2) {
+			if (tempChip == null||chp == null) {
+
+			} else {
+				if (chp.GetComponent<Chips> ().chipNumCode == tempChip.GetComponent<Chips> ().chipNumCode) {
+					chipCount++;
+					matches.Add (chp);
+				} else {
+					if (matches.Count >= 3) {
+						foreach (GameObject c in matches) {
+							c.transform.position = new Vector3 (3000, 3000, 3000);
+							yc = c.GetComponent<Chips> ().index % 8;
+							xc = ((c.GetComponent<Chips>().index - (c.GetComponent<Chips> ().index % 8)) /8);
+							chipGrid [xc, yc] = null;
+
+						}
+
+						List<GameObject> t = new List<GameObject> ();
+						int nullCnt = 0;
+						for (int i = 0; i <8; i++) {
+							if (chipGrid[xc,i] == null) {
+								nullCnt++;
+							} else {
+								t.Add(chipGrid[xc,i]);
+								chipGrid [xc, i] = null;
+
+							}
+
+						}
+						for (int i = 0; i < t.Count; i++) {
+							chipGrid [xc, i] = t [i];
+							Debug.Log(chipGrid[xc,i]);
+						}
+						matches.Clear ();
+					}
+				}
+
+			}
+			tempChip = chp;
+		}
+		tempChip = null;
+		chip2.Clear ();
+	}
 }
+
