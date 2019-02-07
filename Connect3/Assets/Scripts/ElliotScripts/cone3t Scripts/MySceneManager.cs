@@ -36,7 +36,7 @@ public class MySceneManager : MonoBehaviour
         pos1 = pos2 = Vector3.zero;
         chipGrid = new GameObject[8, 8];
         switchingArray = new GameObject[2];
-
+        blankChip = blankChip.transform.GetChild(0).gameObject;
         int heightChange = 0;
         float chipPlacement = -6.5f;
         int indexSet = 0;
@@ -66,7 +66,7 @@ public class MySceneManager : MonoBehaviour
 
                 // sets index in chips array
                 blankChip.GetComponent<Chips>().index = indexSet;
-
+               // blankChip.GetComponent<Anim>
 
                 // instantiates Chip into scene
                 chips.Add(Instantiate(blankChip, new Vector3(chipPlacement, 1 + heightChange, 0), Quaternion.identity));
@@ -115,7 +115,7 @@ public class MySceneManager : MonoBehaviour
         {
             for (int j = 0; j < 8; j++)
             {
-                if(chipGrid[i,j] != null)
+                if(gameObject.GetComponent<Rigidbody>() != null && chipGrid[i,j] != null)
                     chipGrid[i, j].gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
             }
         }
@@ -131,6 +131,8 @@ public class MySceneManager : MonoBehaviour
     //Updated Switching
     void HandleSwitching()
     {
+        GameObject temp1;
+        GameObject temp2;
 
         //if two elements are selected for switching 
         if (switchingArray[1] != null)
@@ -146,6 +148,7 @@ public class MySceneManager : MonoBehaviour
                 //And not in the process of switching, store the end positions
                 if (!moving)
                 {
+                    
                     numberOfMoves--;
                     pos1 = switchingArray[0].transform.position;
                     pos2 = switchingArray[1].transform.position;
@@ -164,6 +167,13 @@ public class MySceneManager : MonoBehaviour
                     //only move a certain amount as not to get stuck
                     if (count < 10)
                     {
+                        temp1 = switchingArray[0];
+                        temp2 = switchingArray[0];
+                        //switchingArray[0].GetComponent<Animator>().enabled = true;
+                        switchingArray[0].GetComponent<Animator>().Play("Take 001");
+                        //switchingArray[1].GetComponent<Animator>().Play("Take 001");
+
+
                         //Slowly move between the positions and add to count
                         //switchingArray[0].transform.position += (Pos2 - switchingArray[0].transform.position) / 2f;
                         //switchingArray[1].transform.position += (Pos1 - switchingArray[1].transform.position) / 2f;
