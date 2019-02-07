@@ -40,7 +40,7 @@ Transform:
   m_GameObject: {fileID: 1754409236839934}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 468.473, y: 435.7922, z: 767.3134}
-  m_LocalScale: {x: 0.85, y: 0.85, z: 0.745}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -100,7 +100,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 10
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!65 &65604420496960040
 BoxCollider:
@@ -110,7 +110,7 @@ BoxCollider:
   m_GameObject: {fileID: 1754409236839934}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.8, y: 1.18, z: 1}
   m_Center: {x: 0, y: 0.1, z: 0}
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chipNumCode: 2
-  index: 63
+  index: 23
 --- !u!135 &135355468840126604
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -137,5 +137,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.55
   m_Center: {x: 0, y: 0, z: 0}
