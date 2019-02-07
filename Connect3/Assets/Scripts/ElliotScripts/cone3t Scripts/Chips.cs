@@ -6,6 +6,8 @@ public class Chips : MonoBehaviour {
 
     public int chipNumCode;
     public int index;
+    public int gridX;
+    public int gridY;
 
     public void SetChip(int num, Material mat)
     {

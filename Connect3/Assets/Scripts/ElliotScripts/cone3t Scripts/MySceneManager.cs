@@ -25,6 +25,7 @@ public class MySceneManager : MonoBehaviour
     private int count;
 
     public GameObject[,] chipGrid;
+    public GameObject[] matchChipGridValues;
 
     // Use this for initialization
     void Start()
@@ -220,6 +221,54 @@ public class MySceneManager : MonoBehaviour
 
 
 
+    }
+
+    void MatchingCheck()
+    {
+        for(int x = 0; x < 8; x++)
+        {
+            GameObject previousChip = null;
+            int counter = 0;
+            for(int y = 0; y < 8; y++)
+            {
+                GameObject currentChip = chipGrid[x, y];
+
+                if (currentChip == null)
+                    break;
+
+                if(previousChip != null)
+                {
+
+                    if (currentChip.GetComponent<Chips>().chipNumCode == previousChip.GetComponent<Chips>().chipNumCode)
+                    {
+                        counter++;
+                    }
+                    else
+                    {
+                        if (counter >= 3)
+                        {
+                            if (counter == 3)
+                            {
+                                score += 30;
+                            }
+                            if (counter > 3)
+                            {
+                                score += counter * 10;
+                                numberOfMoves += counter - 3;
+                            }
+                        }
+                        else
+                            counter = 0;
+                        
+                    }
+
+
+                }
+                previousChip = currentChip;
+            }
+            
+
+        }
     }
 
     void SwitchGridPos(int index1, int index2)
