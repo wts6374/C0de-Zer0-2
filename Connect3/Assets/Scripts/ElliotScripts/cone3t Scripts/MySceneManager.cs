@@ -15,6 +15,7 @@ public class MySceneManager : MonoBehaviour
     public Material yellowMat;
     public Material tealMat;
     public Material purpleMat;
+    public AudioSource audioSource;
 
     public GameObject blankChip;
     public List<GameObject> chips;
@@ -167,6 +168,7 @@ public class MySceneManager : MonoBehaviour
                     //only move a certain amount as not to get stuck
                     if (count < 10)
                     {
+                        audioSource.Play();
                         temp1 = switchingArray[0];
                         temp2 = switchingArray[0];
                         //switchingArray[0].GetComponent<Animator>().enabled = true;
